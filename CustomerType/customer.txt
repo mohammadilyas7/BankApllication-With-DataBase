@@ -1,0 +1,68 @@
+first use command line
+
+mysql> use bank;
+Database changed
+
+customer table create
+mysql> create table customer(Customer_id int primary key auto_increment,Name varchar(50) not null,Age int not null,Contact_Number varchar(10),Email varchar(30),Date_Of_Birth date not null,Address varchar(50));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc customer;
++----------------+-------------+------+-----+---------+----------------+
+| Field          | Type        | Null | Key | Default | Extra          |
++----------------+-------------+------+-----+---------+----------------+
+| Customer_id    | int         | NO   | PRI | NULL    | auto_increment |
+| Name           | varchar(50) | NO   |     | NULL    |                |
+| Age            | int         | NO   |     | NULL    |                |
+| Contact_Number | varchar(10) | YES  |     | NULL    |                |
+| Email          | varchar(30) | YES  |     | NULL    |                |
+| Date_Of_Birth  | date        | NO   |     | NULL    |                |
+| Address        | varchar(50) | YES  |     | NULL    |                |
++----------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.01 sec)
+
+mysql> create table accountDetail(Account_Number bigint primary key,Opening_Date_Time datetime not null,Type_Account varchar(10) not null,Balance double not null,Customer_Id int,foreign key (customer_Id) references customer (customer_Id));
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc Accountdetail;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| Account_Number    | bigint      | NO   | PRI | NULL    |       |
+| Opening_Date_Time | datetime    | NO   |     | NULL    |       |
+| Type_Account      | varchar(10) | NO   |     | NULL    |       |
+| Balance           | double      | NO   |     | NULL    |       |
+| Customer_Id       | int         | YES  | MUL | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> create table transactions(Transaction_Id int primary key,Transaction_time datetime,From_Account bigint not null,To_account bigint not null,Amount double,remarks varchar(20),foreign key (from_account) references accountDetail(account_number));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc transactions;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| Transaction_Id   | int         | NO   | PRI | NULL    |       |
+| Transaction_time | datetime    | YES  |     | NULL    |       |
+| From_Account     | bigint      | NO   | MUL | NULL    |       |
+| To_account       | bigint      | NO   |     | NULL    |       |
+| Amount           | double      | YES  |     | NULL    |       |
+| remarks          | varchar(20) | YES  |     | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> create table cashTransaction(transactionId int primary key auto_increment,Transaction_Time datetime,Account_Number bigint,Amount double,Description varchar(10),foreign key (account_number) references accountDetail(account_number));
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> desc cashtransaction;
++------------------+-------------+------+-----+---------+----------------+
+| Field            | Type        | Null | Key | Default | Extra          |
++------------------+-------------+------+-----+---------+----------------+
+| transactionId    | int         | NO   | PRI | NULL    | auto_increment |
+| Transaction_Time | datetime    | YES  |     | NULL    |                |
+| Account_Number   | bigint      | YES  | MUL | NULL    |                |
+| Amount           | double      | YES  |     | NULL    |                |
+| Description      | varchar(10) | YES  |     | NULL    |                |
++------------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.04 sec)
